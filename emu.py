@@ -1,16 +1,20 @@
 import shlex
 vfs_name = "docker$ "
 exit_cmd = "exit"
-while True:
-    command = input(vfs_name)
+
+def act(a):
     parts = shlex.split(command)
     if command == exit_cmd:
-        break
+        exit()
     if len(parts) == 0:
-        continue
+        return ""
     if parts[0] == 'ls':
-        print(parts)
+        return parts
     elif parts[0] == 'cd':
-        print(parts)
+        return parts
     else:
-        print(f'{command}: command not found')
+        return f'{command}: command not found'
+if __name__ == "__main__":
+    while True:
+        command = input(vfs_name)
+        print(act(command))
