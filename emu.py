@@ -1,5 +1,7 @@
 import shlex
-vfs_name = "docker$ "
+import os
+
+vfs_name = os.getlogin()
 exit_cmd = "exit"
 
 def act(a):
@@ -9,12 +11,24 @@ def act(a):
     if len(parts) == 0:
         return ""
     if parts[0] == 'ls':
-        return parts
+        p = os.listdir(path=".") # файлы в текущей директории
+        return p
     elif parts[0] == 'cd':
-        return parts
+        if len(parts) > 1:
+            target_name = parts[1]
+            current_path = os.getcwd()
+            path_parts = current_path.split(os.sep) # делим директорию на части
+            for i in range(len(path_parts)):
+                if target_name == path_parts[i]:
+                    target_path = os.sep.join(path_parts[:i + 1]) # обрезаем все после нашей директории
+                    os.chdir(target_path)
+        return os.getcwd()
     else:
         return f'{command}: command not found'
+
 if __name__ == "__main__":
+    s = os.getcwd()  # текущая директория
+    print(f'Текущая директория: {s}')
     while True:
-        command = input(vfs_name)
+        command = input(f'{vfs_name}$ ')
         print(act(command))
