@@ -15,6 +15,8 @@ def act(a):
         return p
     elif parts[0] == 'cd':
         if len(parts) > 1:
+            if parts[1] == "$HOME":
+                os.chdir(s)
             target_name = parts[1]
             current_path = os.getcwd()
             path_parts = current_path.split(os.sep) # делим директорию на части
