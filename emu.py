@@ -24,6 +24,9 @@ def act(a):
                 if target_name == path_parts[i]:
                     target_path = os.sep.join(path_parts[:i + 1]) # обрезаем все после нашей директории
                     os.chdir(target_path)
+                    if target_path == 'C:':
+                        target_path += '\\'
+                        os.chdir(target_path)
         return os.getcwd()
     else:
         return f'{command}: command not found'
