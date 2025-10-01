@@ -5,9 +5,8 @@ vfs_name = os.getlogin()
 exit_cmd = "exit"
 
 def act(a):
-    parts = shlex.split(command)
-
-    if command == exit_cmd:
+    parts = shlex.split(a)
+    if a == exit_cmd:
         exit()
     if len(parts) == 0:
         print("")
@@ -28,6 +27,16 @@ def act(a):
             os.chdir(a)
     elif parts[0] == 'pwd':
         print(os.getcwd())
+    elif parts[0] == 'test':
+        try:
+            with open('test_fixed.txt', 'r', encoding='utf-8') as file:
+                for line in file:
+                    line = line.strip()
+                    if line:
+                        print(f'{vfs_name}$ {line}')
+                        act(line)
+        except FileNotFoundError:
+            print("test_fixed.txt: file not found")
     else:
         print(f'{command}: command not found')
 
